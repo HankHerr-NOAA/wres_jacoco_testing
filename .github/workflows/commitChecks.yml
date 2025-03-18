@@ -34,15 +34,23 @@ jobs:
         ./gradlew build
         ./gradlew distZip testCodeCoverageReport javadoc
 
-#    - name: Generate JaCoCo Badge
-#      uses: cicirello/jacoco-badge-generator@v2
-#      with:
-#        jacoco-csv-file: build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.csv
-#        badges-directory: .github/badges
-#        generate-coverage-badge: true
-#        coverage-badge-filename: jacoco.svg
-#        generate-branches-badge: true
-#        branches-badge-filename: branches.svg
+    - name: Generate JaCoCo Badge
+      uses: cicirello/jacoco-badge-generator@v2
+      with:
+        jacoco-csv-file: build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.csv
+        badges-directory: build
+        generate-coverage-badge: true
+        coverage-badge-filename: jacoco.svg
+        generate-branches-badge: true
+        branches-badge-filename: branches.svg
+
+    # Archive the artifacts created from this build
+    - name: Archive jacoco badge
+      uses: actions/upload-artifact@v4
+      with:
+        name: jacoco.svg
+        path: build/jacoco.svg
+        compression-level: 0
 
     - name: Add coverage to PR
       id: jacoco
@@ -51,8 +59,8 @@ jobs:
         paths: |
           ${{ github.workspace }}/**/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml
         token: ${{ secrets.GITHUB_TOKEN }}
-#        min-coverage-overall: 40
-#        min-coverage-changed-files: 60
+        min-coverage-overall: 50
+        min-coverage-changed-files: 60
 
 #    # Confirm the test code inside wres-external-services-tests zip compiles
 #    - name: Compile external-services-tests
