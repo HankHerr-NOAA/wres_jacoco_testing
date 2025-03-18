@@ -39,18 +39,18 @@ jobs:
       uses: cicirello/jacoco-badge-generator@v2
       with:
         jacoco-csv-file: build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.csv
-        badges-directory: build
-        generate-coverage-badge: true
-        coverage-badge-filename: jacoco.svg
-        generate-branches-badge: true
-        branches-badge-filename: branches.svg
+  #      badges-directory: build
+  #      generate-coverage-badge: true
+  #      coverage-badge-filename: jacoco.svg
+  #      generate-branches-badge: true
+  #      branches-badge-filename: branches.svg
 
     # Archive the artifacts created from this build
-    - name: Archive jacoco badge
-      uses: actions/upload-artifact@v4
-      with:
-        name: jacoco_badge
-        path: build/jacoco.svg
+#    - name: Archive jacoco badge
+#      uses: actions/upload-artifact@v4
+#      with:
+#        name: jacoco_badge
+#        path: build/jacoco.svg
 
     # Added coverage report to the pull request as comment
     - name: Add coverage to PR as comment
