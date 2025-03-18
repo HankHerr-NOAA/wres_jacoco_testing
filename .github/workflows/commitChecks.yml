@@ -35,17 +35,27 @@ jobs:
         ./gradlew build
         ./gradlew distZip testCodeCoverageReport javadoc
 
-#    - name: Generate JaCoCo Badge
-#      uses: cicirello/jacoco-badge-generator@v2
-#      with:
-#        jacoco-csv-file: build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.csv
-#        badges-directory: .github/badges
-#        generate-coverage-badge: true
-#        coverage-badge-filename: jacoco.svg
-#        generate-branches-badge: true
-#        branches-badge-filename: branches.svg
+    - name: Generate JaCoCo Badge and Action Report
+      uses: cicirello/jacoco-badge-generator@v2
+      with:
+        jacoco-csv-file: build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.csv
+        badges-directory: build
+        generate-coverage-badge: true
+        coverage-badge-filename: jacoco.svg
+        generate-branches-badge: true
+        branches-badge-filename: branches.svg
 
-    - name: Add coverage to PR
+    - name: Archive system tests
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: badges
+        retention-days: 30
+        path: |
+          build/jacoco.svg
+          build/branches.svg
+
+    - name: Add Coverage Comment to PR
       id: jacoco
       uses: madrapps/jacoco-report@v1.7.1
       with:
