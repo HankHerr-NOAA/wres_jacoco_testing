@@ -39,26 +39,13 @@ jobs:
       uses: cicirello/jacoco-badge-generator@v2
       with:
         jacoco-csv-file: build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.csv
-  #      badges-directory: build
-  #      generate-coverage-badge: true
-  #      coverage-badge-filename: jacoco.svg
-  #      generate-branches-badge: true
-  #      branches-badge-filename: branches.svg
-
-    # Archive the artifacts created from this build
-#    - name: Archive jacoco badge
-#      uses: actions/upload-artifact@v4
-#      with:
-#        name: jacoco_badge
-#        path: build/jacoco.svg
 
     # Added coverage report to the pull request as comment
     - name: Add coverage to PR as comment
       id: jacoco
       uses: madrapps/jacoco-report@v1.7.1
       with:
-        paths: |
-          ${{ github.workspace }}/**/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml
+        paths: build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml
         token: ${{ secrets.GITHUB_TOKEN }}
         min-coverage-overall: 50
         min-coverage-changed-files: 60
