@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      pull-requests: write
 
     steps:
     - uses: actions/checkout@v1
@@ -48,11 +49,11 @@ jobs:
     - name: Archive jacoco badge
       uses: actions/upload-artifact@v4
       with:
-        name: jacoco.svg
+        name: jacoco_badge
         path: build/jacoco.svg
-        compression-level: 0
 
-    - name: Add coverage to PR
+    # Added coverage report to the pull request as comment
+    - name: Add coverage to PR as comment
       id: jacoco
       uses: madrapps/jacoco-report@v1.7.1
       with:
