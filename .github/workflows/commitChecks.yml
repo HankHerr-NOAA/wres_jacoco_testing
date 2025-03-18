@@ -4,7 +4,10 @@ name: Code Checks
 on:
   push:
   pull_request:
-
+  
+permissions:
+  pull-requests: write
+  
 jobs:
   Build:
     runs-on: ubuntu-latest
