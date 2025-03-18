@@ -34,15 +34,25 @@ jobs:
         ./gradlew build
         ./gradlew distZip testCodeCoverageReport javadoc
 
-    - name: Generate JaCoCo Badge
-      uses: cicirello/jacoco-badge-generator@v2
+#    - name: Generate JaCoCo Badge
+#      uses: cicirello/jacoco-badge-generator@v2
+#      with:
+#        jacoco-csv-file: build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.csv
+#        badges-directory: .github/badges
+#        generate-coverage-badge: true
+#        coverage-badge-filename: jacoco.svg
+#        generate-branches-badge: true
+#        branches-badge-filename: branches.svg
+
+    - name: Add coverage to PR
+      id: jacoco
+      uses: madrapps/jacoco-report@v1.7.1
       with:
-        jacoco-csv-file: build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.csv
-        badges-directory: .github/badges
-        generate-coverage-badge: true
-        coverage-badge-filename: jacoco.svg
-        generate-branches-badge: true
-        branches-badge-filename: branches.svg
+        paths: |
+          ${{ github.workspace }}/**/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml
+        token: ${{ secrets.GITHUB_TOKEN }}
+#        min-coverage-overall: 40
+#        min-coverage-changed-files: 60
 
 #    # Confirm the test code inside wres-external-services-tests zip compiles
 #    - name: Compile external-services-tests
@@ -71,17 +81,15 @@ jobs:
 #          md5sum systests/build/distributions/systests-*.zip >> checksum.txt
 #          md5sum scripts/build/distributions/wres-admin-scripts-*.zip >> checksum.txt
 #
-    # Archive the artifacts created from this build
-    - name: Archive artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: build-artifacts
-        path: |
-          checksum.txt
-          build/distributions/wres-*.zip
-          wres-*/build/distributions/wres-*-*.zip
-          .github/badges/*.svg
-
+#    # Archive the artifacts created from this build
+#    - name: Archive artifacts
+#      uses: actions/upload-artifact@v4
+#      with:
+#        name: build-artifacts
+#        path: |
+#          checksum.txt
+#          build/distributions/wres-*.zip
+#          wres-*/build/distributions/wres-*-*.zip
 #          systests/build/distributions/systests-*.zip
 #          scripts/build/distributions/wres-admin-scripts-*.zip
 #
