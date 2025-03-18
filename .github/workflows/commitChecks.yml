@@ -52,8 +52,9 @@ jobs:
         paths: |
           ${{ github.workspace }}/**/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml
         token: ${{ secrets.GITHUB_TOKEN }}
-        min-coverage-overall: 40
+        min-coverage-overall: 60
         min-coverage-changed-files: 60
+        debug-mode: true
 
 #    # Confirm the test code inside wres-external-services-tests zip compiles
 #    - name: Compile external-services-tests
