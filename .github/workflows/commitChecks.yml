@@ -12,11 +12,8 @@ jobs:
   # ========================================================
   Build:
     runs-on: ubuntu-latest
-   
-    # pull-requests write permission needed for Jacoco report in PR comment.
     permissions:
       contents: read
-      pull-requests: write  
 
     steps:
     - uses: actions/checkout@v1
@@ -96,7 +93,7 @@ jobs:
 
     steps:
 
-    # Download artifacts from previous step
+    # Download and unpackage artifacts from previous step
     - name: Download Artifacts
       uses: actions/download-artifact@v4
       with:
@@ -111,7 +108,8 @@ jobs:
         jacoco-csv-file: build-artifacts/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.csv
 
     # Add coverage report to the pull request as comment.
-    # Basic coverage checks are implemented.
+    # Basic coverage checks are implemented. The 1.7.1 needs 
+    # to be fully specified; v1 does not work (as of 3/18/25).
     - name: Add Jacoco coverage report in PR comment
       id: jacoco
       uses: madrapps/jacoco-report@v1.7.1
